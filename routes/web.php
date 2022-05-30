@@ -23,53 +23,52 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-  /*
+/*
         _____________________ Admin Dashboard Routes __________________________
 
  */
-    //admin login
-    Route::get('/AdminLogin', [AuthController::class, "login"])->name('admin.login');
-    Route::post('/AdminHandelLogin', [AuthController::class, "handelLogin"])->name('admin.handelLogin');
+//admin login
+Route::get('/AdminLogin', [AuthController::class, "login"])->name('admin.login');
+Route::post('/AdminHandelLogin', [AuthController::class, "handelLogin"])->name('admin.handelLogin');
 
-    Route::group(['middleware' => 'auth:admin'], function () {
-        //Admin Dashboard
-        Route::get('/dashboard', [DashboardController::class, "index"])->name('admin.index');
-        Route::get('/Adminlogout', [AuthController::class, "logout"])->name('admin.logout');
+Route::group(['middleware' => 'auth:admin'], function () {
+    //Admin Dashboard
+    Route::get('/dashboard', [DashboardController::class, "index"])->name('admin.index');
+    Route::get('/Adminlogout', [AuthController::class, "logout"])->name('admin.logout');
 
-        //Category CRUD
-        Route::get('/categories', [CategoryController::class, "index"])->name('category.index');
-        Route::get('/category/create', [CategoryController::class, "create"])->name('category.create');
-        Route::post('/category/store', [CategoryController::class, "store"])->name('category.store');
-        Route::get('/category/edit/{id}', [CategoryController::class, "edit"])->name('category.edit');
-        Route::post('/category/update/{id}', [CategoryController::class, "update"])->name('category.update');
-        Route::get('/category/destroy/{id}', [CategoryController::class, "destroy"])->name('category.destroy');
+    //Category CRUD
+    Route::get('/categories', [CategoryController::class, "index"])->name('category.index');
+    Route::get('/category/create', [CategoryController::class, "create"])->name('category.create');
+    Route::post('/category/store', [CategoryController::class, "store"])->name('category.store');
+    Route::get('/category/edit/{id}', [CategoryController::class, "edit"])->name('category.edit');
+    Route::post('/category/update/{id}', [CategoryController::class, "update"])->name('category.update');
+    Route::get('/category/destroy/{id}', [CategoryController::class, "destroy"])->name('category.destroy');
 
-        //products
-        Route::get('/products', [ProductController::class, "index"])->name('product.index');
-        Route::get('/product/create', [ProductController::class, "create"])->name('product.create');
-        Route::post('/product/store', [ProductController::class, "store"])->name('product.store');
-   
-    });
+    //products
+    Route::get('/products', [ProductController::class, "index"])->name('product.index');
+    Route::get('/product/create', [ProductController::class, "create"])->name('product.create');
+    Route::post('/product/store', [ProductController::class, "store"])->name('product.store');
+});
 
-    
 
-    /*
+
+/*
      _____________________ Site Routes __________________________
     */
-    
-    //user login
-    Route::get('/login', [UserAuthController::class, "login"])->name('login');
-    Route::post('/login', [UserAuthController::class, "handelLogin"])->name('handelLogin');
-    //Home
-    Route::get('/',[HomeController::class, 'index'])->name('home');
-    Route::get('/search',[HomeController::class, 'search'])->name('search');
 
-    Route::group(['middleware' => 'auth'], function () {
-       
-        // User Favorites 
-        Route::post('/addToFavorite/{id}',[FavoriteController::class, 'addFavoriteProduct'])->name('addToFavorite');
-        Route::get('/showFavorites',[FavoriteController::class, 'showFavoriteProducts'])->name('showFavorites');
-        //Logout
-        Route::get('/logout', [UserAuthController::class, "logout"])->name('user.logout');
+//user login
+Route::get('/login', [UserAuthController::class, "login"])->name('login');
+Route::post('/login', [UserAuthController::class, "handelLogin"])->name('handelLogin');
+//Home
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+Route::get('/filter', [HomeController::class, 'filter'])->name('filter');
 
-    });
+Route::group(['middleware' => 'auth'], function () {
+
+    // User Favorites 
+    Route::post('/addToFavorite/{id}', [FavoriteController::class, 'addFavoriteProduct'])->name('addToFavorite');
+    Route::get('/showFavorites', [FavoriteController::class, 'showFavoriteProducts'])->name('showFavorites');
+    //Logout
+    Route::get('/logout', [UserAuthController::class, "logout"])->name('user.logout');
+});

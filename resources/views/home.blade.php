@@ -10,15 +10,15 @@
         </div>
         <br><br>
     @endif
-   
+
     @if (session('result'))
-    <div class='alert alert-warning'>
-        <center>
-            <h4>{{ session('result') }}</h4>
-        </center>
-    </div>
-@endif
-<br><br>
+        <div class='alert alert-warning'>
+            <center>
+                <h4>{{ session('result') }}</h4>
+            </center>
+        </div>
+    @endif
+    <br><br>
 
     <center>
         <form action="{{ route('search') }}" method="get">
@@ -27,35 +27,37 @@
             <div class="input-group mb-3">
                 <input class="form-control" type="text" style='width: 20%;' name="product_name"
                     placeholder="Search for products by Name">
+
+                <button type="submit">
+                    search
+                </button>
+            </div>
+        </form>
+        <form action="{{ route('filter') }}" method="get">
+            @csrf
+            {{ csrf_field() }}
+            <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01"> </label>
+                    <label class="input-group-text" for="inputGroupSelect01"> Category * </label>
                 </div>
-                <select class="custom-select" style="width:500px " multiple name="category_id[]">
-                    {{-- <option selected value={{Null}}>Choose one or more category</option> --}}
+                <select class="form-control" type="text"  style="width:500px " multiple
+                    name="category_id[]">
+
 
                     @foreach ($categories as $value)
                         <option value="{{ $value->id }}"> {{ $value->name }} </option>
                     @endforeach
+
                 </select>
+                <button type="submit">
+                    Filter
+                </button>
             </div>
-            {{-- <input class="form-control" type="text" style='width: 20%;' name="search"
-                placeholder="Search for products by Name">
-                <label><h6>Category</h6></label>
-             <select class="form-control" type="text" name="category_id" style="width:500px ">
-            <option value=""> Null </option>
-
-            @foreach ($categories as $value)
-                <option value="{{ $value->id }}"> {{ $value->name }} </option>
-            @endforeach
-
-            </select> --}}
-            <button type="submit" >
-                search
-            </button>
         </form>
+
     </center>
     <br>
-   
+
 
     <div class="listing-section">
         @foreach ($products as $product)

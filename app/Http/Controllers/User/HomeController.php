@@ -29,14 +29,10 @@ class HomeController extends Controller
     // search in products by name & category and return the search results
     public function search(Request $request)
     {
-        
+
         $results = Product::where(function ($query) use ($request) {
-            //search for product name by one or multiple categoey 
-            if ($request->filled('product_name') && (array)$request->category_id) {
-                $query->where('name', 'like', '%' . $request->product_name . '%');
-                $query->whereIn('category_id',  $request->category_id);
-                //search for product name 
-            } elseif ($request->filled('product_name')) {
+
+            if ($request->filled('product_name')) {
                 $query->where('name', 'like', '%' . $request->product_name . '%');
             }
         })->orderBy('id')
@@ -46,5 +42,22 @@ class HomeController extends Controller
             return back()->with('result', 'There are not results');
         else
             return view('user.searchResult', compact('results'));
+    }
+
+    public function filter(Request $request)
+    {
+        $results = Product::where(function ($query) use ($request) {
+            // search by multiple category
+            if ((array)$request->category_id) {
+                $query->whereIn('category_id', $request->category_id);
+            }
+        })->orderBy('id')
+            ->paginate();
+
+
+        if ($results->isEmpty())
+            return back()->with('result', 'There are not results');
+        else
+            return view('user.filtrationResult', compact('results'));
     }
 }
