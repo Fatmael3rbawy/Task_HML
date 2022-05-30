@@ -26,7 +26,7 @@ class HomeController extends Controller
         return view('home', compact('products', 'categories'));
     }
 
-    // search in products by name & category and return the search results
+    // search in products by name and return the search results
     public function search(Request $request)
     {
 
